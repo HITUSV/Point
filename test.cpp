@@ -1,4 +1,5 @@
 #include <iostream>
+#include <chrono>
 #include "point.h"
 
 
@@ -6,9 +7,12 @@ int main(int argc, char* argv[]){
     navigation::point::Point p1;
     navigation::point::Point p2;
 
-    ///通过Gps 经纬度赋值
-    p1(122.000, 37.000);
-    p2(122.001, 37.001);
+    ///角度值经纬度赋值, 第三个参数是单位，默认弧度
+    p1(122.000, 37.000, navigation::point::kDegree);
+    ///弧度值可不加单位参数
+    p2(122.00001/180*M_PI, 37.00001/180*M_PI);
+    ///或者
+    p2(122.00001/180*M_PI, 37.00001/180*M_PI, navigation::point::kRadian);
     navigation::UtmPosition u1;
     navigation::GpsPosition g2;
 
@@ -47,5 +51,16 @@ int main(int argc, char* argv[]){
 
     ///输出
     std::cout<<p1<<std::endl;
+
+    p1(120.000, 37.0, navigation::point::kDegree);
+    p5(120.000, 37.0002, navigation::point::kDegree);
+    std::chrono::steady_clock::time_point t1, t2;
+    t1 = std::chrono::steady_clock::now();
+    for(size_t i=0; i<1000000; i++){
+        navigation::point::Point::Distance(p1, p5);
+    }
+    t2 = std::chrono::steady_clock::now();
+    std::chrono::duration<double> d1 = std::chrono::duration_cast<std::chrono::duration<double >>(t2 - t1);
+    std::cout<<"time used: "<<d1.count()*1e6<<" us"<<std::endl;
     return 0;
 }

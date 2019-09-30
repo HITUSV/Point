@@ -60,28 +60,6 @@ namespace navigation
         double height = 0.0;
     }Position;
 
-    inline void GpsToUtm(const GpsPosition* gps_position, UtmPosition* utm_position){
-        double lat = gps_position->latitude/180.0*M_PI;
-        double lon = gps_position->longitude/180.0*M_PI;
-        double N, E;
-
-        const Ellipse* e = standard_ellipse(ELLIPSE_WGS84);
-        geographic_to_grid(e->a, e->e2, lat, lon, &utm_position->gridZone, &utm_position->hemisphere, &N, &E);
-        utm_position->x = E;
-        utm_position->y = N;
-    }
-
-    inline void UtmToGps(const UtmPosition* utm_position, GpsPosition* gps_position){
-        double N = utm_position->y;
-        double E = utm_position->x;
-        double lat;
-        double lon;
-        const Ellipse* e = standard_ellipse(ELLIPSE_WGS84);
-        grid_to_geographic(e->a, e->e2, utm_position->gridZone, utm_position->hemisphere, N, E, &lat, &lon);
-        gps_position->latitude = lat/M_PI*180.0;
-        gps_position->longitude = lon/M_PI*180.0;
-    }
-
 
     inline double CalcAngleUtm(UtmPosition* key_position, UtmPosition* now_position){
         float angle;
@@ -97,6 +75,10 @@ namespace navigation
             kWgs84Coordinate = 1,
             kUtmCoordinate = 2
         };
+        typedef enum AngleUnit{
+            kRadian = 0,    ///弧度制
+            kDegree = 1     ///角度制
+        }AngleUnit;
         class Point {
         public:
             struct Uninitialized : public std::exception{
@@ -120,7 +102,7 @@ namespace navigation
             Point& operator=(const UtmPosition& utmPosition);
             Point& operator=(const GpsPosition& gpsPosition);
             Point& operator()(const Point& P);
-            Point& operator()(double longitude, double latitude);
+            Point& operator()(double longitude, double latitude, AngleUnit u = kRadian);
             Point& operator()(double x, double y, GridZone zone, Hemisphere hemisphere);
             bool operator ==(const Point& P);
             friend std::ostream &operator<<(std::ostream &output, const Point &D );

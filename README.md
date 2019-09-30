@@ -56,9 +56,10 @@ Point封装了坐标点，并重载了大量运算符以便于使用
 p1 p2距离: 142.221
 Uninitialized
 1
-angle: 50.6664
+angle1: 50.6664
+angle2: 50.6664
 gps longitude: 122.0000000 latitude: 37.0000000
 utm x: 411022.8571570 y: 411022.8571570 grid zone: 51 hemisphere: 1
 altitude: 0.0000000
-time used: 9970.9830000 us
+time used: 10350.8660000 us
 ```

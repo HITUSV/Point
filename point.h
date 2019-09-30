@@ -128,11 +128,6 @@ namespace navigation
             void GpsToUtm();
             void UtmToGps();
         };
-
-        //double Distance(Point* point1, Point* point2);
-        //double Distance(navigation::point::Point&& point1, Point&& point2);
-        //double Distance(const navigation::point::Point& point1, const Point& point2);
-        double CalcAngle(navigation::point::Point* end_point, Point* starting_point);
     }
 }
 

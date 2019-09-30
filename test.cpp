@@ -46,8 +46,11 @@ int main(int argc, char* argv[]){
     std::cout<<(p5 == p6)<<std::endl;
 
     /// p1p5在ENU下的角度
-    double angle = navigation::point::Point::Angle(p1, p5);
-    std::cout<<"angle: "<<angle/M_PI*180.0<<std::endl;
+    double angle1 = navigation::point::Point::Angle(p1, p5);
+    ///或者
+    double angle2 = p1.Angle(p5);
+    std::cout<<"angle1: "<<angle1/M_PI*180.0<<std::endl;
+    std::cout<<"angle2: "<<angle2/M_PI*180.0<<std::endl;
 
     ///输出
     std::cout<<p1<<std::endl;
